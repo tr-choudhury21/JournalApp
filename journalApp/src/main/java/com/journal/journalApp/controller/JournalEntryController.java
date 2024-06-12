@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,16 +26,12 @@ public class JournalEntryController {
 
     @GetMapping("{userName}")
     public ResponseEntity<?> getAllJournalEntriesOfUser(@PathVariable String userName) {
-
         User user = userService.findByUsername(userName);
-
         List<JournalEntry> all = user.getJournalEntries();
-
         if (!all.isEmpty() && all != null) {
             return new ResponseEntity<>(all, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
     }
 
     @PostMapping("{userName}")
@@ -54,22 +49,17 @@ public class JournalEntryController {
 
     @GetMapping("/id/{myid}")
     public ResponseEntity<JournalEntry> getEntryById(@PathVariable ObjectId myid){
-
         Optional<JournalEntry> journalEntry = Optional.ofNullable(journalEntryService.findById(myid));
-
         if(journalEntry.isPresent()){
             return new ResponseEntity<>(journalEntry.get(), HttpStatus.OK);
         }
-
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
 
     @DeleteMapping("/id/{userName}/{myid}")
     public ResponseEntity<?> deleteEntryById(@PathVariable ObjectId myid, @PathVariable String userName){
-
         journalEntryService.deleteById(myid, userName);
-
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
